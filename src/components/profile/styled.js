@@ -3,6 +3,7 @@ import styled from "styled-components";
 export const Wrapper = styled.div`
   display: flex;
   align-items: flex-start;
+  background-color:yellow;
 `;
 
 export const WrapperInfoUser = styled.div`
@@ -52,10 +53,14 @@ export const WrapperUserGeneric = styled.div`
     color: blue;
     font-weight: bold;
   }
+
+  span {
+    flex-direction: column;
+  }
+
 `;
 
 export const WrapperImage = styled.img`
-  border-radius: 50%;
   width: 200px;
   margin: 8px;
 `;

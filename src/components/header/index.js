@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import * as S from "./styled";
-import useGithub from "../../hooks/github-hooks";
+import useMovie from "../../hooks/movie-hooks";
 
 const Header = () => {
-  const { getUser } = useGithub();
+  const { getUser } = useMovie();
   const [usernameForSearch, setUsernameForSearch] = useState();
 
   const submitGetUser = () => {
@@ -16,11 +16,11 @@ const Header = () => {
       <S.Wrapper>
         <input
           type="text"
-          placeholder="Digite o username para pesquisa..."
+          placeholder="Type a movie title..."
           onChange={(event) => setUsernameForSearch(event.target.value)}
         />
         <button type="submit" onClick={submitGetUser}>
-          <span>Buscar</span>
+          <span>Search</span>
         </button>
       </S.Wrapper>
     </header>

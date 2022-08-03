@@ -2,21 +2,19 @@ import React from "react";
 import Layout from "./components/layout";
 import NoSearch from "./components/no-search";
 import Profile from "./components/profile";
-import Repositories from "./components/repositories";
-import useGithub from "./hooks/github-hooks";
+import useMovie from "./hooks/movie-hooks";
 
 const App = () => {
-  const { githubState } = useGithub();
+  const { MovieState } = useMovie();
   return (
     <Layout>
-      {githubState.hasUser ? (
+      {MovieState.hasUser ? (
         <>
-          {githubState.loading ? (
+          {MovieState.loading ? (
             <p>Loading</p>
           ) : (
             <>
               <Profile />
-              <Repositories />
             </>
           )}
         </>

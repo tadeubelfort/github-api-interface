@@ -1,65 +1,67 @@
 import React, { createContext, useCallback, useState } from "react";
 import api from "../services/api";
 
-export const GithubContext = createContext({
+export const MovieContext = createContext({
   loading: false,
   user: {},
   repositories: [],
   starred: [],
 });
 
-const GithubProvider = ({ children }) => {
-  const [githubState, setGithubState] = useState({
+const MovieProvider = ({ children }) => {
+  const [MovieState, setMovieState] = useState({
     hasUser: false,
     loading: false,
     user: {
-      id: undefined,
-      avatar: undefined,
-      login: undefined,
-      name: undefined,
-      html_url: undefined,
-      blog: undefined,
-      company: undefined,
-      location: undefined,
-      followers: 0,
-      following: 0,
-      public_gists: 0,
-      public_repos: 0,
+      title: undefined,
+      year:0,
+      rated: undefined,
+      released: undefined,
+      runtime: undefined,
+      genre:undefined,
+      director: undefined,
+      actors:undefined,
+      plot: undefined,
+      country:undefined,
+      poster:undefined
     },
     repositories: [],
     starred: [],
   });
 
+      //Key for OMDB API
+      const MY_API_KEY = "a309ab9d";
+
   const getUser = (username) => {
-    setGithubState((prevState) => ({
+    setMovieState((prevState) => ({
       ...prevState,
       loading: !prevState.loading,
     }));
 
     api
-      .get(`users/${username}`)
+      .get(`?t=${username}&apikey=${MY_API_KEY}`)
       .then(({ data }) => {
-        setGithubState((prevState) => ({
+        setMovieState((prevState) => ({
           ...prevState,
           hasUser: true,
           user: {
             id: data.id,
-            avatar: data.avatar_url,
-            login: data.login,
-            name: data.name,
-            html_url: data.html_url,
-            blog: data.blog,
-            company: data.company,
-            location: data.location,
-            followers: data.followers,
-            following: data.following,
-            public_gists: data.public_gists,
-            public_repos: data.public_repos,
+            title:data.Title,
+            year:data.Year,
+            rated:data.Rated,
+            released:data.Released,
+            runtime:data.Runtime,
+            genre:data.Genre,
+            director:data.Director,
+            actors:data.Actors,
+            plot:data.Plot,
+            country:data.Country,
+            poster: data.Poster
           },
         }));
       })
       .finally(() => {
-        setGithubState((prevState) => ({
+        setMovieState((prevState) => ({
           ...prevState,
           loading: !prevState.loading,
         }));
@@ -69,7 +71,7 @@ const GithubProvider = ({ children }) => {
   const getUserRepos = (username) => {
     api.get(`users/${username}/repos`).then(({ data }) => {
       console.log("data: " + JSON.stringify(data));
-      setGithubState((prevState) => ({
+      setMovieState((prevState) => ({
         ...prevState,
         repositories: data,
       }));
@@ -79,7 +81,7 @@ const GithubProvider = ({ children }) => {
   const getUserStarred = (username) => {
     api.get(`users/${username}/starred`).then(({ data }) => {
       console.log("data: " + JSON.stringify(data));
-      setGithubState((prevState) => ({
+      setMovieState((prevState) => ({
         ...prevState,
         starred: data,
       }));
@@ -87,17 +89,17 @@ const GithubProvider = ({ children }) => {
   };
 
   const contextValue = {
-    githubState,
+    MovieState,
     getUser: useCallback((username) => getUser(username), []),
     getUserRepos: useCallback((username) => getUserRepos(username), []),
     getUserStarred: useCallback((username) => getUserStarred(username), []),
   };
 
   return (
-    <GithubContext.Provider value={contextValue}>
+    <MovieContext.Provider value={contextValue}>
       {children}
-    </GithubContext.Provider>
+    </MovieContext.Provider>
   );
 };
 
-export default GithubProvider;
+export default MovieProvider;
