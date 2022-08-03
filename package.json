@@ -1,5 +1,5 @@
 {
-  "name": "github-api",
+  "name": "movie-api",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
